@@ -1,81 +1,71 @@
 const display = document.getElementById("display");
 const buttons = document.getElementsByTagName("button");
-let displayValue = 0;
-let firstOperand = 0;
+let displayValue = '0';
+let firstOperand = '0';
 let currentOperator = '';
 let negative = false;
 let decimal = false;
-let decimalPlace = 1;
 
 function numberListener(number) {
-    if(decimal){
-        displayValue += number * decimalPlace;
-        decimalPlace *= 0.1;
-    } else {
-        displayValue = displayValue * 10 + number;
+    if(displayValue == 0){
+        displayValue = number;
+    } else{
+        displayValue += number;
     }
 
     display.innerText = displayValue;
 }
 
 function operatorListener(e){
-    firstOperand = operate(currentOperator, firstOperand, displayValue);
-    displayValue = 0;
+    firstOperand = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
+    displayValue = '0';
     currentOperator = e.target.value;
     newNumber();
 }
 
 function equals(){
-    displayValue = operate(currentOperator, firstOperand, displayValue);
+    displayValue = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
     display.innerText = displayValue;
-    displayValue = 0;
+    displayValue = '0';
     currentOperator = '';
     newNumber();
 }
 
 function backspace(){
-    if(decimal) {
-        decimalPlace *= 10;
-        displayValue -= displayValue % (decimalPlace);
-    } else {
-        displayValue = (displayValue - displayValue % 10) / 10;
-    }
+    displayValue = displayValue.slice(0, -1);
     display.innerText = displayValue;
 }
 
 function clear(){
-    displayValue = 0;
-    firstOperand = 0;
+    displayValue = '0';
+    firstOperand = '0';
     currentOperator = '';
     display.innerText = displayValue;
     newNumber();
 }
 
 function negate(){
-    displayValue = 0 - displayValue;
+    displayValue = '-' + displayValue;
     display.innerText = displayValue;
 }
 
 function decimalClick(){
-    if(decimalPlace === 1) {
+    if(!decimal){
         decimal = true;
-        decimalPlace = 0.1;
-    } else if (decimalPlace === 0.1){
-        newNumber();
+        displayValue += '.';
     }
 }
 
 function newNumber(){
     negative = false;
     decimal = false;
-    decimalPlace = 1;
 }
 
 function addListeners(){
     for(let i = 0; i < buttons.length; i++){
         if(buttons[i].classList.contains("number")){
             buttons[i].addEventListener('click', function(){
-                numberListener(parseInt(buttons[i].value));
+                numberListener(buttons[i].value);
             })
         } else if(buttons[i].classList.contains("operator")){
             buttons[i].addEventListener('click', function(e){
