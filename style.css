@@ -23,3 +23,8 @@ body{
 .equals{
     grid-column: 4;
 }
+
+.selected{
+    border: violet;
+}
+/* <a href="https://iconscout.com/icons/backspace" target="_blank">Backspace Icon</a> by <a href="https://iconscout.com/contributors/benjamin-j-sperry" target="_blank">Benjamin J Sperry</a> */

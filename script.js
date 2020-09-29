@@ -3,10 +3,16 @@ const buttons = document.getElementsByTagName("button");
 let displayValue = '0';
 let firstOperand = '0';
 let currentOperator = '';
+let operatorSelected = false;
 let negative = false;
 let decimal = false;
 
 function numberListener(number) {
+    if(operatorSelected){
+        firstOperand = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
+        operatorSelected = false;
+    }
+
     if(displayValue == 0){
         displayValue = number;
     } else{
@@ -17,16 +23,23 @@ function numberListener(number) {
 }
 
 function operatorListener(e){
-    firstOperand = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
-    displayValue = '0';
+    if(operatorSelected){
+        clearSelectedOperator();
+    }
+    e.target.classList.add("selected");
     currentOperator = e.target.value;
+    operatorSelected = true;
     newNumber();
+}
+
+function clearSelectedOperator(){
+    document.querySelector(`[value='${currentOperator}']`).classList.remove("selected");
 }
 
 function equals(){
     displayValue = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
     display.innerText = displayValue;
-    displayValue = '0';
+    clearSelectedOperator();
     currentOperator = '';
     newNumber();
 }
@@ -40,10 +53,11 @@ function backspace(){
 }
 
 function clear(){
-    displayValue = '0';
     firstOperand = '0';
     currentOperator = '';
-    display.innerText = displayValue;
+    display.innerText = '0';
+    operatorSelected = false;
+    clearSelectedOperator();
     newNumber();
 }
 
@@ -69,6 +83,7 @@ function decimalClick(){
 }
 
 function newNumber(){
+    displayValue = '0';
     negative = false;
     decimal = false;
 }
