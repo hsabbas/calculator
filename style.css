@@ -1,0 +1,16 @@
+body{
+    display: flex;
+    justify-content: center;
+    
+}
+
+#calculator {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
+}
+
+#display {
+    grid-column: 1 / -1;
+    background-color: white;
+}
