@@ -32,6 +32,9 @@ function equals(){
 }
 
 function backspace(){
+    if(displayValue.slice(-1) === '.') {
+        decimal = false;
+    }
     displayValue = displayValue.slice(0, -1);
     display.innerText = displayValue;
 }
@@ -45,7 +48,15 @@ function clear(){
 }
 
 function negate(){
-    displayValue = '-' + displayValue;
+    if (displayValue == 0){
+        return;
+    } else if(!negative){
+        displayValue = '-' + displayValue;
+        negative = true;
+    } else {
+        displayValue = displayValue.slice(1);
+        negative = false;
+    }
     display.innerText = displayValue;
 }
 
@@ -53,6 +64,7 @@ function decimalClick(){
     if(!decimal){
         decimal = true;
         displayValue += '.';
+        display.innerText = displayValue;
     }
 }
 
@@ -86,17 +98,6 @@ function addListeners(){
 }
 
 addListeners();
-
-
-
-
-
-
-
-
-
-
-
 
 let add = (number1, number2) => number1 + number2;
 let subtract = (number1, number2) => number1 - number2;
