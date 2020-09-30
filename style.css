@@ -7,6 +7,9 @@ body{
     display: grid;
     grid-template-columns: repeat(4, 75px);
     grid-template-rows: repeat(7, 75px);
+    border: 7px solid lightgrey;
+    background-color: rgb(204, 255, 238);
+    gap: 1px;
 }
 
 #display {
@@ -16,15 +19,45 @@ body{
     color: white;
 }
 
+button {
+    border-radius: 3px;
+    border: none;
+    margin: 2px;
+    font-size: large;
+    color: black;
+}
+
+.number{
+    background-color: white;
+}
+
+.operator{
+    background-color: lightgrey;
+}
+
+.decimal{
+    background-color: #ddddff;
+}
+
+.negate{
+    background-color: #ddddff;
+}
+
+#clear-btn {
+    background-color: rgb(255, 231, 152);
+}
+
 #backspace-btn{
+    background-color: rgb(216, 175, 255);
     grid-column: 4;
 }
 
 .equals{
-    grid-column: 4;
+    grid-column: 3 / -1;
 }
 
 .selected{
-    border: violet;
+    border: 2px solid white;
+    box-shadow: 0 0 4px white;
 }
-/* <a href="https://iconscout.com/icons/backspace" target="_blank">Backspace Icon</a> by <a href="https://iconscout.com/contributors/benjamin-j-sperry" target="_blank">Benjamin J Sperry</a> */
+/* <a href="https://iconscout.com/icons/backspace" target="_blank">Backspace Icon</a> by <a href="https://iconscout.com/contributors/benjamin-j-sperry" target="_blank">Benjamin J Sperry</a> */</meta>

@@ -3,61 +3,73 @@ const buttons = document.getElementsByTagName("button");
 let displayValue = '0';
 let firstOperand = '0';
 let currentOperator = '';
-let operatorSelected = false;
+let operandEntered = true;
 let negative = false;
 let decimal = false;
 
-function numberListener(number) {
-    if(operatorSelected){
-        firstOperand = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
-        operatorSelected = false;
-    }
-
-    if(displayValue == 0){
+function numberClicked(number) {
+    if(displayValue === '0'){
         displayValue = number;
-    } else{
+        operandEntered = true;
+    } else {
         displayValue += number;
     }
-
+    
     display.innerText = displayValue;
 }
 
-function operatorListener(e){
-    if(operatorSelected){
-        clearSelectedOperator();
+function operatorClicked(e){
+    if(currentOperator === '' && display.innerText != displayValue){    //After pressing =
+        firstOperand = display.innerText;
+    } else if(currentOperator === ''){                                  //First operator
+        firstOperand = displayValue;
+    } else if(!operandEntered) {                                        //Changing current operator
+        deselectCurrentOperator();
+    } else {                                                            //Operators after first
+        deselectCurrentOperator();
+        firstOperand = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
+        display.innerText = firstOperand;
     }
     e.target.classList.add("selected");
-    currentOperator = e.target.value;
-    operatorSelected = true;
+    setCurrentOperator(e.target.value);
     newNumber();
-}
-
-function clearSelectedOperator(){
-    document.querySelector(`[value='${currentOperator}']`).classList.remove("selected");
 }
 
 function equals(){
-    displayValue = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
-    display.innerText = displayValue;
-    clearSelectedOperator();
-    currentOperator = '';
+    display.innerText = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
+    deselectCurrentOperator();
+    setCurrentOperator('');
     newNumber();
 }
 
+function setCurrentOperator(opValue){
+    currentOperator = opValue;
+    operandEntered = false;
+}
+
+function deselectCurrentOperator(){
+    document.querySelector(`[value='${currentOperator}']`).classList.remove("selected");
+}
+
 function backspace(){
-    if(displayValue.slice(-1) === '.') {
-        decimal = false;
+    if(displayValue.length == 1){
+        displayValue = '0';
+    } else {
+        if (displayValue.slice(-1) === '.') {
+            decimal = false;
+        }
+        displayValue = displayValue.slice(0, -1);
     }
-    displayValue = displayValue.slice(0, -1);
     display.innerText = displayValue;
 }
 
 function clear(){
     firstOperand = '0';
-    currentOperator = '';
     display.innerText = '0';
-    operatorSelected = false;
-    clearSelectedOperator();
+    if(currentOperator !== ''){
+        deselectCurrentOperator();
+        setCurrentOperator('');
+    }
     newNumber();
 }
 
@@ -75,6 +87,10 @@ function negate(){
 }
 
 function decimalClick(){
+    if(displayValue === '0'){
+        operandEntered = true;
+    }
+
     if(!decimal){
         decimal = true;
         displayValue += '.';
@@ -83,6 +99,7 @@ function decimalClick(){
 }
 
 function newNumber(){
+    operandEntered = false;
     displayValue = '0';
     negative = false;
     decimal = false;
@@ -92,11 +109,11 @@ function addListeners(){
     for(let i = 0; i < buttons.length; i++){
         if(buttons[i].classList.contains("number")){
             buttons[i].addEventListener('click', function(){
-                numberListener(buttons[i].value);
+                numberClicked(buttons[i].value);
             })
         } else if(buttons[i].classList.contains("operator")){
             buttons[i].addEventListener('click', function(e){
-                operatorListener(e);
+                operatorClicked(e);
             })
         } else if (buttons[i].classList.contains("equals")){
             buttons[i].addEventListener('click', equals);
@@ -133,7 +150,5 @@ function operate(operator, number1, number2){
         } else {
             return divide(number1, number2);
         }
-    } else {
-        return number2;
     }
 }
