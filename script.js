@@ -7,6 +7,25 @@ let operandEntered = true;
 let negative = false;
 let decimal = false;
 
+window.addEventListener('keydown', function(e){
+    let keyPressed = e.key;
+    if(keyPressed === 'Enter'){
+        keyPressed = '=';
+    }
+
+    if(isValidInput(keyPressed)){
+        document.querySelector(`[value="${keyPressed}"]`).click();
+    }
+});
+
+function isValidInput(keyPressed){
+    let validInputs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '/', '*', '-', '+', '=', 'Backspace', 'Delete', '.'];
+    if(validInputs.includes(keyPressed)){
+        return true;
+    }
+    return false;
+}
+
 function numberClicked(number) {
     if(displayValue === '0'){
         displayValue = number;
@@ -36,10 +55,12 @@ function operatorClicked(e){
 }
 
 function equals(){
-    display.innerText = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
-    deselectCurrentOperator();
-    setCurrentOperator('');
-    newNumber();
+    if(currentOperator != ''){
+        display.innerText = operate(currentOperator, parseFloat(firstOperand), parseFloat(displayValue));
+        deselectCurrentOperator();
+        setCurrentOperator('');
+        newNumber();
+    }
 }
 
 function setCurrentOperator(opValue){

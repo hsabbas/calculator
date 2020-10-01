@@ -8,15 +8,19 @@ body{
     grid-template-columns: repeat(4, 75px);
     grid-template-rows: repeat(7, 75px);
     border: 7px solid lightgrey;
-    background-color: rgb(204, 255, 238);
+    background-color: rgb(236, 236, 236);
     gap: 1px;
 }
 
 #display {
     display:flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: center;
     grid-column: 1 / -1;
     background-color: black;
     color: white;
+    font-size: xx-large;
 }
 
 button {
@@ -29,30 +33,38 @@ button {
 
 .number{
     background-color: white;
+    border: 2px solid #aaaaaa;
 }
 
 .operator{
     background-color: lightgrey;
+    border: 2px solid #888888;
 }
 
 .decimal{
-    background-color: #ddddff;
+    background-color: white;
+    border: 2px solid #aaaaaa;
 }
 
 .negate{
-    background-color: #ddddff;
+    background-color: #d3d3ff;
+    border: 2px solid #aaaaaa;
 }
 
 #clear-btn {
-    background-color: rgb(255, 231, 152);
+    background-color: rgb(255, 174, 174);
+    border: 2px solid rgb(255, 134, 134);
 }
 
 #backspace-btn{
     background-color: rgb(216, 175, 255);
+    border: 2px solid black;
     grid-column: 4;
 }
 
 .equals{
+    background-color: lightgray;
+    border: 2px solid #aaaaaa;
     grid-column: 3 / -1;
 }
 
