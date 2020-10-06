@@ -92,6 +92,7 @@ function clear(){
         setCurrentOperator('');
     }
     newNumber();
+    operandEntered = true;
 }
 
 function negate(){
